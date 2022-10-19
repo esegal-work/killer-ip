@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <!-- adapted from https://www.geeksforgeeks.org/how-to-get-client-ip-address-using-javascript/ -->
+    <head>
+        <title>Using a GUI to get the killer's IP address</title>
+        <style>
+            h1 {
+                color: green;
+            }
+            div {
+                text-align: center;
+                margin: 0 auto;
+            }
+            form{
+                font-size: 30px;
+            }
+            #catch-the-killer h2{
+                border-bottom: 2px dotted red;
+                color: red;
+                animation: darken 20s infinite;
+            }
+
+            @keyframes darken {
+                50% {border-bottom: 2px dashed maroon;}
+            }
+            h3{
+                font-style: normal;
+            }
+            #catch-the-killer{
+                background-color: lightgray;
+                border: 1px solid gray;
+                font-style: italic;
+                padding-bottom: 10px;
+            }
+            #main{
+                width: 80%;
+            }
+            /*adapted from https://css-tricks.com/snippets/css/a-guide-to-flexbox/#aa-examples*/
+            .flex-container {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-around;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+            .flex-item {
+                margin-top: 10px;
+                max-width: 25%;
+                min-width: 15%;
+                padding: 5px;
+                text-transform: capitalize;
+                word-wrap: break-word;
+            }
+            .flex-item:nth-child(even){
+                background: aliceblue;
+            }
+            .flex-item:nth-child(odd){
+                border: 1px solid gray;
+                box-sizing: border-box;
+            }
+            @media (min-width: 1025px) {
+                body {
+                    margin: 5% 20%;
+                }
+                #main{
+                    width: 60%;
+                }
+            }
+
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+         
+        <script>
+            window.addEventListener('load', function () {
+                $.get("https://ipinfo.io", function(response) {
+                    $("#ip").text(response.ip);
+                    $("#city").text(response.city);
+                    $("#country").text(response.country);
+                    $("#hostname").text(response.hostname);
+                    $("#loc").text(response.loc);
+                    $("#org").text(response.org);
+                    $("#postal").text(response.postal);
+                    $("#region").text(response.region);
+                    $("#timezone").text(response.timezone);
+                }, "jsonp");
+
+                const yesRadio = document.getElementById("yes");
+                const noRadio = document.getElementById("no");
+                const radioOutput = document.getElementById("are-you");
+
+                yesRadio.addEventListener("click", () => {
+                    radioOutput.innerHTML = "Well, stop it.";
+                });
+                noRadio.addEventListener("click", () => {
+                    radioOutput.innerHTML = "Very good. Keep going.";
+                });
+            });
+        </script>
+    </head>
+ 
+    <body>
+        <div id="main">
+            <h1>Your Location Data:</h1>
+            <h2>ip: <span id="ip"></h2>
+            <div id="catch-the-killer">
+                <h2>Are you the killer?</h2>
+                <h3 id="are-you">&nbsp;</h3>
+                <form>
+                    <input type="radio" id="yes" name="are-you-the-killer" value="Yes">
+                    <label for="yes">Yes</label>
+                    <input type="radio" id="no" name="are-you-the-killer" value="No">
+                    <label for="no">No</label> 
+                </form>
+            </div>
+            <hr>
+            <h3>Additional data:</h3>
+            <ul class="flex-container">
+                <li class="flex-item">city: <span id="city"></span></li>
+                <li class="flex-item">country: <span id="country"></span></li>
+                <li class="flex-item">hostname: <span id="hostname"></span></li>
+                <li class="flex-item">loc: <span id="loc"></span></li>
+                <li class="flex-item">org: <span id="org"></span></li>
+                <li class="flex-item">postal: <span id="postal"></span></li>
+                <li class="flex-item">region: <span id="region"></span></li>
+                <li class="flex-item">timezone: <span id="timezone"></span></li>
+            </ul>
+        </div>
+    </body>
+ 
+</html>
